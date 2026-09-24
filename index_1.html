@@ -1,0 +1,493 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<title>Révise l'objet technique</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fredoka:wght@500;600;700&family=Nunito:wght@500;700;800&display=swap">
+<style>
+:root{
+  --bg:#FFF4FA; --dot1:rgba(255,138,200,.18); --dot2:rgba(155,107,255,.14); --surface:#FFFFFF; --surface2:#F5ECFF;
+  --ink:#3D2455; --muted:#7A5C92; --accent:#FF8AC8; --accent-ink:#3D2455; --pink:#D6408E;
+  --blue:#8A55F0; --btn-ink:#FFFFFF; --ok:#1E9E62; --ok-bg:#E0F8EC; --ko:#D94A78; --ko-bg:#FFE6EF;
+  --line:#EBD5F7; --shadow:0 4px 0 rgba(155,107,255,.14);
+  --rainbow:linear-gradient(90deg,#FF9ED2,#FFC98A,#FFF08A,#9EF0C8,#9ED8FF,#C9A8FF);
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    color-scheme:dark;
+    --bg:#23143B; --dot1:rgba(255,158,210,.12); --dot2:rgba(195,163,255,.12); --surface:#301D50; --surface2:#3D2764;
+    --ink:#FFF4FB; --muted:#DCC6EF; --accent:#FF9ED2; --accent-ink:#23143B; --pink:#FF9ED2;
+    --blue:#C9A8FF; --btn-ink:#23143B; --ok:#6EEBB0; --ok-bg:#1B4636; --ko:#FF93B5; --ko-bg:#4F2142;
+    --line:#533881; --shadow:0 4px 0 rgba(0,0,0,.3);
+  }
+}
+:root[data-theme="dark"]{
+  color-scheme:dark;
+  --bg:#23143B; --dot1:rgba(255,158,210,.12); --dot2:rgba(195,163,255,.12); --surface:#301D50; --surface2:#3D2764;
+  --ink:#FFF4FB; --muted:#DCC6EF; --accent:#FF9ED2; --accent-ink:#23143B; --pink:#FF9ED2;
+  --blue:#C9A8FF; --btn-ink:#23143B; --ok:#6EEBB0; --ok-bg:#1B4636; --ko:#FF93B5; --ko-bg:#4F2142;
+  --line:#533881; --shadow:0 4px 0 rgba(0,0,0,.3);
+}
+*{box-sizing:border-box}
+body{
+  background-color:var(--bg);
+  background-image:radial-gradient(var(--dot1) 2px,transparent 2.5px),radial-gradient(var(--dot2) 2px,transparent 2.5px);
+  background-size:34px 34px,34px 34px; background-position:0 0,17px 17px;
+  color:var(--ink); font:500 18px/1.5 "Nunito",system-ui,sans-serif;
+  padding-inline:16px; padding-block:0 48px; min-height:100%;
+}
+h1,h2,h3{font-family:"Fredoka","Nunito",system-ui,sans-serif;text-wrap:balance;margin:0}
+button{font:inherit;color:inherit;cursor:pointer}
+button:focus-visible{outline:3px solid var(--accent);outline-offset:3px}
+.wrap{max-width:760px;margin:0 auto}
+header.bar{
+  position:sticky; top:env(safe-area-inset-top,0px); z-index:5;
+  display:flex; align-items:center; gap:10px; padding-block:12px;
+  background:var(--bg); border-bottom:2px solid var(--line); margin-bottom:20px;
+}
+header.bar h1{font-size:1.25rem;flex:1;display:flex;align-items:center;gap:10px}
+.tag{font:700 .72rem "Nunito";letter-spacing:.08em;text-transform:uppercase;background:var(--accent);color:var(--accent-ink);padding:3px 8px;border-radius:6px}
+.iconbtn{display:inline-flex;align-items:center;gap:6px;border:2px solid var(--line);background:var(--surface);border-radius:12px;padding:8px 12px;font-weight:800;font-size:.95rem}
+.iconbtn[aria-pressed="true"]{border-color:var(--accent)}
+.iconbtn svg{width:22px;height:22px}
+
+/* Accueil */
+.hero{display:grid;gap:10px;margin-bottom:22px}
+.hero h2{font-size:clamp(1.8rem,5vw,2.5rem);line-height:1.1}
+.hero p{margin:0;color:var(--muted);max-width:60ch}
+.rule{display:grid;gap:12px;grid-template-columns:1fr 1fr;margin-bottom:24px}
+.rule div{background:var(--surface);border:2px solid var(--line);border-radius:20px;padding:14px 16px}
+.rule b{display:block;font-family:"Fredoka";font-size:1.15rem;color:var(--blue)}
+.rule div:last-child b{color:var(--pink)}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:14px}
+.card{
+  text-align:left;background:var(--surface);border:2px solid var(--line);border-radius:24px;
+  padding:16px;display:grid;gap:6px;box-shadow:var(--shadow);transition:transform .12s,border-color .12s;
+}
+.card:hover{transform:translateY(-3px) rotate(-.5deg);border-color:var(--accent)}
+.card .ico{font-size:2rem;line-height:1}
+.card h3{font-size:1.2rem}
+.card p{margin:0;color:var(--muted);font-size:.95rem}
+.card .best{font-weight:800;font-size:.85rem;color:var(--ok)}
+.card.exam{grid-column:1/-1;background:linear-gradient(120deg,#FFB3DA,#D9C2FF 55%,#B8E6FF);color:#3D2455;border-color:#FFB3DA}
+.card.exam p,.card.exam .best{color:#3D2455!important}
+.card.exam p{color:var(--accent-ink);opacity:.85}
+.card.exam .best{color:var(--accent-ink)}
+
+/* Quiz */
+.progress{height:12px;background:var(--surface2);border-radius:99px;overflow:hidden;margin-bottom:8px}
+.progress i{display:block;height:100%;background:var(--rainbow);border-radius:99px;transition:width .3s}
+.meta{display:flex;justify-content:space-between;color:var(--muted);font-weight:800;font-size:.95rem;margin-bottom:14px;font-variant-numeric:tabular-nums}
+.q{background:var(--surface);border:3px solid var(--line);border-radius:28px;box-shadow:var(--shadow);padding:22px;display:grid;gap:16px}
+.q .pic{font-size:4.2rem;line-height:1;text-align:center;animation:float 3s ease-in-out infinite}
+@keyframes float{0%,100%{transform:translateY(0)}50%{transform:translateY(-6px)}}
+.q .obj{text-align:center;font-family:"Fredoka";font-size:1.6rem;font-weight:600;margin-top:-6px}
+.q .text{font-size:1.35rem;font-weight:800;line-height:1.35;display:flex;gap:10px;align-items:flex-start}
+.q .text span{flex:1}
+.say{flex:none;border:none;background:var(--surface2);border-radius:50%;width:48px;height:48px;display:grid;place-items:center}
+.say svg{width:26px;height:26px}
+.opts{display:grid;gap:10px}
+.opts.two{grid-template-columns:1fr 1fr}
+.opt{
+  border:2px solid var(--line);background:var(--surface2);border-radius:20px;
+  padding:16px;font-size:1.15rem;font-weight:800;text-align:left;min-height:62px;transition:border-color .1s,transform .1s;
+}
+.opts.two .opt{text-align:center;font-size:1.3rem}
+.opt:hover:not(:disabled){border-color:var(--accent);transform:translateY(-1px)}
+.opt:disabled{cursor:default}
+.opt.good{background:var(--ok-bg);border-color:var(--ok);color:var(--ink)}
+.opt.bad{background:var(--ko-bg);border-color:var(--ko);color:var(--ink)}
+.opt.dim{opacity:.5}
+.fb{border-radius:14px;padding:14px 16px;font-size:1.1rem;display:grid;gap:6px}
+.fb.ok{background:var(--ok-bg);border:2px solid var(--ok)}
+.fb.ko{background:var(--ko-bg);border:2px solid var(--ko)}
+.fb strong{font-family:"Fredoka";font-size:1.3rem}
+.fb.ok strong{color:var(--ok)} .fb.ko strong{color:var(--ko)}
+.row{display:flex;gap:10px;flex-wrap:wrap}
+.btn{border:none;border-radius:14px;padding:14px 22px;font-weight:800;font-size:1.1rem;background:var(--blue);color:var(--btn-ink);box-shadow:var(--shadow)}
+.btn.alt{background:var(--surface2);color:var(--ink);border:2px solid var(--line)}
+.btn.big{flex:1;min-width:180px}
+.tip{background:none;border:2px dashed var(--line);border-radius:12px;padding:8px 12px;font-weight:800;color:var(--muted);justify-self:start}
+.tipbox{background:var(--surface2);border-radius:12px;padding:12px 14px;color:var(--ink)}
+
+/* Fin */
+.end{background:var(--surface);border:2px solid var(--line);border-radius:20px;padding:24px;display:grid;gap:16px}
+.score{font-family:"Fredoka";font-size:clamp(3rem,12vw,5rem);line-height:1;font-weight:700;background:linear-gradient(90deg,#FF6FB5,#A77BFF,#5FB8FF);-webkit-background-clip:text;background-clip:text;color:transparent;font-variant-numeric:tabular-nums}
+.mist{display:grid;gap:10px;margin:0;padding:0;list-style:none}
+.mist li{background:var(--ko-bg);border-radius:12px;padding:12px 14px}
+.mist li b{color:var(--ok)}
+
+/* Fiche */
+.sheet{display:grid;gap:12px}
+.para{background:var(--surface);border:2px solid var(--line);border-radius:16px;padding:16px;display:flex;gap:12px;align-items:flex-start}
+.para div{flex:1}
+.para h3{font-size:1.2rem;margin-bottom:4px;color:var(--pink)}
+.para p{margin:0}
+.hl{background:var(--accent);color:var(--accent-ink);padding:0 4px;border-radius:4px;font-weight:800}
+.foot{color:var(--muted);font-size:.9rem;margin-top:26px;text-align:center}
+@media (max-width:520px){
+  .rule{grid-template-columns:1fr}
+  .q{padding:16px}
+  .q .text{font-size:1.2rem}
+  header.bar h1 .tag{display:none}
+}
+.spark{position:fixed;pointer-events:none;z-index:50;font-size:1.6rem;animation:burst 1.1s ease-out forwards}
+@keyframes burst{0%{transform:translate(0,0) scale(.4) rotate(0);opacity:1}100%{transform:translate(var(--dx),var(--dy)) scale(1.1) rotate(var(--r));opacity:0}}
+.rain{position:fixed;top:-40px;pointer-events:none;z-index:50;font-size:1.8rem;animation:fall linear forwards}
+@keyframes fall{to{transform:translateY(110vh) rotate(360deg)}}
+.mascot{font-size:3.5rem;line-height:1;animation:float 2.4s ease-in-out infinite}
+@media (prefers-reduced-motion:reduce){*{transition:none!important;animation:none!important}}
+@keyframes pop{0%{transform:scale(.96)}60%{transform:scale(1.03)}100%{transform:scale(1)}}
+.pop{animation:pop .25s ease-out}
+</style>
+
+</head>
+<body>
+<div class="wrap">
+  <header class="bar">
+    <h1><span aria-hidden="true">🦄</span><span>Objet technique</span><span class="tag">Techno 5e</span></h1>
+    <button class="iconbtn" id="sndBtn" aria-pressed="true" title="Voix et sons">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M11 5 6 9H3v6h3l5 4V5z" fill="currentColor"/><path id="sndWave" d="M15.5 8.5a5 5 0 0 1 0 7M18.5 5.5a9 9 0 0 1 0 13"/></svg>
+      <span id="sndLbl">Son</span>
+    </button>
+    <button class="iconbtn" id="homeBtn" hidden title="Accueil">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 11 12 4l9 7"/><path d="M5 10v10h14V10"/></svg>
+      <span>Menu</span>
+    </button>
+  </header>
+  <main id="app"></main>
+  <p class="foot">Séquence 1 : C'est quoi un objet technique ? – révision pour l'évaluation</p>
+</div>
+
+<script>
+/* ============ Données du cours ============ */
+const SPK='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M11 5 6 9H3v6h3l5 4V5z" fill="currentColor"/><path d="M15.5 8.5a5 5 0 0 1 0 7M18.5 5.5a9 9 0 0 1 0 13"/></svg>';
+
+const RULE_NT="Astuce : l'homme l'a-t-il fabriqué ou modifié ? Oui → technique. Non → naturel.";
+const RULE_BF="Astuce : est-ce que ça se touche ? Oui → c'est une fonction. Non → c'est un besoin. Puis : est-ce que ça sert à quelque chose (usage) ou à plaire (estime) ?";
+
+const N="Objet naturel", T="Objet technique";
+const nt=(pic,obj,ans,exp)=>({pic,obj,text:"Objet naturel ou objet technique ?",opts:[N,T],ans:ans==="N"?N:T,exp,tip:RULE_NT,two:true,keep:true});
+const A_NT=[
+ nt("🌰","La noix","N","La noix pousse sur l'arbre. L'homme ne l'a ni fabriquée ni modifiée : objet naturel."),
+ nt("🦆","Le canard","N","Le canard est un être vivant, l'homme ne l'a pas fabriqué : objet naturel."),
+ nt("📱","Le téléphone","T","Le téléphone a été fabriqué par l'homme : objet technique."),
+ nt("🌾","Les roseaux","N","Les roseaux poussent tout seuls au bord de l'eau : objet naturel."),
+ nt("⚽","Le ballon","T","Le ballon a été fabriqué par l'homme : objet technique."),
+ nt("🪨","Les cailloux","N","Les cailloux n'ont pas été modifiés par l'homme : objet naturel."),
+ nt("🧪","Le bécher","T","Le bécher est un récipient de laboratoire fabriqué en verre : objet technique."),
+ nt("🏢","L'immeuble","T","L'immeuble a été construit par l'homme : objet technique."),
+ nt("🔺","Le silex taillé","T","Piège ! Le silex est une pierre naturelle, mais il a été TAILLÉ, donc modifié par l'homme : objet technique."),
+ nt("📖","Le livre","T","Le livre a été fabriqué par l'homme : objet technique."),
+ nt("🌳","L'arbre","N","L'arbre pousse tout seul : objet naturel."),
+ nt("🔬","Le microscope","T","Le microscope a été fabriqué par l'homme : objet technique."),
+ nt("🍃","Une feuille d'arbre","N","C'est l'exemple du cours : une feuille d'arbre n'a pas été modifiée par l'homme, c'est un objet naturel."),
+ nt("💻","Un ordinateur","T","C'est l'exemple du cours : l'ordinateur a été réalisé par l'homme, c'est un objet technique."),
+ nt("🪵","Une planche de bois","T","Piège ! Le bois est naturel, mais la planche a été découpée par l'homme : elle est modifiée, donc objet technique."),
+ nt("🍎","Une pomme sur l'arbre","N","La pomme pousse sur le pommier : objet naturel."),
+ nt("🐚","Un coquillage sur la plage","N","Personne ne l'a fabriqué : objet naturel."),
+];
+
+const q=(text,ans,wrong,exp,pic)=>({text,ans,opts:[ans,...wrong],exp,pic});
+const A_DEF=[
+ q("Un objet naturel est un objet qui n'a pas été … par l'homme.","modifié",["regardé","acheté"],"Un objet naturel n'a pas été créé ni modifié par l'homme."),
+ q("Un objet technique est un objet qui a été … ou modifié par l'homme.","fabriqué (réalisé)",["trouvé","ramassé"],"Un objet technique a été fabriqué (réalisé) ou modifié par l'homme."),
+ q("L'objet technique est fabriqué par l'homme pour répondre à …","un besoin",["une mode","un hasard"],"L'objet technique est fabriqué par l'homme pour répondre à un besoin."),
+ q("Un besoin, c'est …","une nécessité ou un désir ressenti par une personne",["une pièce de l'objet","la couleur de l'objet"],"Un besoin est une nécessité ou un désir ressenti par une personne : manger, dormir, s'amuser…"),
+ q("Lequel de ces mots est un besoin ?","Dormir",["Le lit","Le matelas"],"Dormir est un besoin. Le lit et le matelas sont des objets qui répondent à ce besoin."),
+ q("Pour trouver la fonction d'usage, quelle question dois-je me poser ?","À quoi sert-il ?",["Qui l'a fabriqué ?","Combien coûte-t-il ?"],"Pour trouver la fonction d'usage, on se demande : à quoi sert-il ?"),
+ q("La fonction d'usage répond …","au besoin",["au prix","à la couleur"],"La fonction d'usage répond au besoin."),
+ q("Un objet technique peut-il avoir plusieurs fonctions d'usage ?","Oui",["Non"],"Oui ! Exemples du cours : l'ordinateur, le smartphone, le couteau suisse."),
+ q("Quel objet a plusieurs fonctions d'usage ?","Le couteau suisse",["Le caillou","Le canard"],"Le couteau suisse sert à couper, ouvrir une bouteille, visser… Il a plusieurs fonctions d'usage.","🔪"),
+ q("Quelle phrase est juste ?","Un besoin ne se touche pas, une fonction se touche",["Un besoin se touche, une fonction ne se touche pas","Un besoin et une fonction se touchent tous les deux"],"Un besoin ne peut pas se toucher. La fonction, elle, existe vraiment sur l'objet : on l'a « fabriquée », donc elle se touche."),
+ q("La fonction d'estime répond au besoin …","de nous plaire (couleur, design)",["de nous déplacer","de nous protéger"],"Tous les objets techniques doivent nous plaire : la fonction d'estime répond au besoin de nous plaire (couleur, design)."),
+ q("Le besoin qu'un objet technique me plaise s'appelle …","le besoin d'estime",["le besoin d'usage","la fonction d'usage"],"À retenir : le besoin qu'un objet technique me plaise s'appelle le besoin d'estime."),
+ q("Les 10 Formules 1 répondent toutes au même besoin d'usage. Alors, qu'est-ce qui m'a fait choisir ma préférée ?","Sa couleur ou sa forme : l'estime",["Son usage","Son moteur"],"Elles servent toutes à la même chose. J'ai choisi celle qui me plaisait le plus (couleur, forme) : c'est le besoin d'estime.","🏎️"),
+];
+
+const NEEDS=["Communiquer","S'habiller","Se loger (s'abriter)","S'informer","S'amuser","Se déplacer","Se protéger","S'alimenter","Dormir","S'éclairer"];
+const need=(pic,obj,ans,exp)=>{const w=NEEDS.filter(n=>n!==ans).sort(()=>Math.random()-.5).slice(0,3);return{pic,obj,text:"À quel besoin répond cet objet ?",ans,opts:[ans,...w],exp}};
+const A_NEED=[
+ need("📱","Le téléphone","Communiquer","Le téléphone répond au besoin de communiquer."),
+ need("🧥","Le sweat à capuche","S'habiller","Le sweat répond au besoin de s'habiller."),
+ need("🏠","La maison","Se loger (s'abriter)","La maison répond au besoin de se loger, de s'abriter."),
+ need("📰","Le magazine","S'informer","Le magazine répond au besoin de s'informer."),
+ need("🎮","La console de jeux","S'amuser","La console répond au besoin de s'amuser."),
+ need("🏍️","La moto","Se déplacer","La moto répond au besoin de se déplacer."),
+ need("⛑️","Le casque","Se protéger","Le casque répond au besoin de se protéger."),
+ need("🏎️","La voiture de sport","Se déplacer","La voiture répond au besoin de se déplacer."),
+ need("🍽️","L'assiette","S'alimenter","L'assiette répond au besoin de s'alimenter (manger)."),
+ need("🛏️","Le lit","Dormir","Le lit répond au besoin de dormir."),
+];
+
+const A_USE=[
+ q("À quoi sert la casquette ? (fonction d'usage)","Protéger la tête du soleil",["Décorer la tête","Mesurer la tête"],"La casquette sert à protéger la tête du soleil.","🧢"),
+ q("À quoi sert la règle graduée ? (fonction d'usage)","Mesurer et tracer des traits",["Couper le papier","Colorier"],"La règle graduée sert à mesurer et à tracer des traits droits.","📏"),
+ q("À quoi sert le smartphone ? (fonction d'usage)","Appeler, envoyer des messages, photographier…",["Rien, il est juste joli","Seulement donner l'heure"],"Le smartphone a plusieurs fonctions d'usage : appeler, envoyer des messages, prendre des photos…","📱"),
+ q("À quoi sert le voilier ? (fonction d'usage)","Se déplacer sur l'eau",["Voler","Rouler sur la route"],"Le voilier sert à se déplacer sur l'eau, poussé par le vent.","⛵"),
+ q("À quoi sert la lampe de bureau ? (fonction d'usage)","Éclairer le plan de travail",["Chauffer la pièce","Décorer le mur"],"La lampe de bureau sert à éclairer le plan de travail.","💡"),
+ q("À quoi sert la montre ? (fonction d'usage)","Donner l'heure (et chronométrer)",["Écrire","Se déplacer"],"La montre sert à donner l'heure. Certaines chronomètrent aussi : plusieurs fonctions d'usage !","⌚"),
+ q("À quoi servent les ciseaux ? (fonction d'usage)","Couper",["Coller","Mesurer"],"Les ciseaux servent à couper.","✂️"),
+];
+
+const BU="Besoin d'usage", BE="Besoin d'estime", FU="Fonction d'usage", FE="Fonction d'estime";
+const cat=(pic,obj,ans,exp)=>({pic,obj,text:"Besoin ou fonction ? Usage ou estime ?",ans,opts:[BU,BE,FU,FE],exp,tip:RULE_BF,keep:true,two:true});
+const A_CAT=[
+ cat("🛴","Se déplacer","Besoin d'usage","Se déplacer ne se touche pas : c'est un besoin. Et c'est utile : besoin d'usage."),
+ cat("😍","Avoir un objet qui me plaît","Besoin d'estime","Ça ne se touche pas : c'est un besoin. C'est pour me plaire : besoin d'estime."),
+ cat("🛴","Les roues de la trottinette","Fonction d'usage","Les roues se touchent : fonction. Elles servent à rouler : fonction d'usage."),
+ cat("🛴","La couleur (la peinture) de la trottinette","Fonction d'estime","La peinture se touche : fonction. Elle sert à plaire : fonction d'estime."),
+ cat("🛴","L'allure (la forme) de la trottinette","Fonction d'estime","La forme existe sur l'objet : fonction. Elle sert à plaire : fonction d'estime."),
+ cat("🚗","Le panneau solaire de la voiture solaire","Fonction d'usage","Le panneau se touche : fonction. Il sert à produire l'énergie : fonction d'usage."),
+ cat("🚗","La peinture noire de la voiture solaire","Fonction d'estime","La peinture se touche et sert à plaire : fonction d'estime."),
+ cat("🚗","Le volant de la voiture","Fonction d'usage","Le volant se touche et sert à diriger : fonction d'usage."),
+ cat("✈️","Les ailes de l'avion","Fonction d'usage","Les ailes se touchent et servent à voler : fonction d'usage."),
+ cat("✈️","Les réacteurs de l'avion","Fonction d'usage","Les réacteurs se touchent et servent à avancer : fonction d'usage."),
+ cat("✈️","Le pare-brise de l'avion","Fonction d'usage","Le pare-brise se touche : c'est une fonction, pas un besoin ! Il protège et permet de voir : fonction d'usage."),
+ cat("🏄","La voile de la planche à voile","Fonction d'usage","La voile se touche et sert à avancer avec le vent : fonction d'usage."),
+ cat("🏄","La couleur de la voile","Fonction d'estime","La couleur sert à plaire : fonction d'estime."),
+ cat("🏄","La planche (le flotteur)","Fonction d'usage","La planche se touche et sert à flotter : fonction d'usage."),
+ cat("🧢","Se protéger du soleil","Besoin d'usage","Ça ne se touche pas : besoin. C'est utile : besoin d'usage."),
+ cat("📱","Communiquer","Besoin d'usage","Communiquer ne se touche pas : besoin d'usage."),
+ cat("⛑️","Les dessins et le logo du casque","Fonction d'estime","Les dessins se touchent et servent à plaire : fonction d'estime."),
+];
+
+const V="VRAI", F="FAUX";
+const vf=(pic,obj,text,ans,exp)=>({pic,obj,text,ans:ans?V:F,opts:[V,F],exp,tip:RULE_BF,keep:true,two:true});
+const A_VF=[
+ vf("🛴","Trottinette","Les roues sont une fonction d'estime.",false,"Les roues servent à rouler : ce sont une fonction d'USAGE."),
+ vf("🛴","Trottinette","L'allure (la forme) est une fonction d'estime.",true,"La forme sert à plaire : fonction d'estime."),
+ vf("🛴","Trottinette","La couleur (la peinture) est un besoin d'estime.",false,"La peinture se touche : ce n'est pas un besoin, c'est une FONCTION d'estime."),
+ vf("🛴","Trottinette","Aller vite en roulant est le besoin d'usage.",false,"Rouler, c'est ce que fait l'objet (une fonction). Le besoin d'usage, c'est se déplacer."),
+ vf("🚗","Voiture solaire","Le panneau solaire est une fonction d'estime.",false,"Le panneau solaire produit l'énergie : fonction d'USAGE."),
+ vf("🚗","Voiture solaire","Sa peinture noire est une fonction d'estime.",true,"La peinture sert à plaire : fonction d'estime."),
+ vf("🚗","Voiture solaire","Le volant de la voiture est une fonction d'estime.",false,"Le volant sert à diriger : fonction d'USAGE."),
+ vf("🚗","Voiture solaire","Les roues de la voiture sont un besoin d'usage.",false,"Les roues se touchent : ce sont une FONCTION d'usage, pas un besoin."),
+ vf("✈️","Avion","Les roues répondent au besoin d'estime.",false,"Les roues servent à rouler au sol : elles répondent au besoin d'usage."),
+ vf("✈️","Avion","Les ailes de l'avion sont une fonction d'usage.",true,"Les ailes servent à voler : fonction d'usage."),
+ vf("✈️","Avion","Les réacteurs sont une fonction d'estime.",false,"Les réacteurs servent à avancer : fonction d'USAGE."),
+ vf("✈️","Avion","Le pare-brise est un besoin d'usage.",false,"Le pare-brise se touche : c'est une FONCTION d'usage, pas un besoin."),
+ vf("🏄","Planche à voile","Cet objet me plaît : c'est un besoin d'estime.",true,"Vouloir qu'un objet nous plaise, c'est le besoin d'estime."),
+ vf("🏄","Planche à voile","La voile est une fonction d'usage.",true,"La voile sert à avancer avec le vent : fonction d'usage."),
+ vf("🏄","Planche à voile","La planche (flotteur) est un besoin d'usage.",false,"La planche se touche : c'est une FONCTION d'usage (flotter), pas un besoin."),
+ vf("🏄","Planche à voile","La couleur de la voile est une fonction d'usage.",false,"La couleur sert à plaire : fonction d'ESTIME."),
+];
+
+const ACTS=[
+ {id:"nt",ico:"🌳",title:"Naturel ou technique ?",sub:"Trie les objets de la fiche.",items:A_NT},
+ {id:"def",ico:"📝",title:"Les définitions",sub:"Les phrases du cours à connaître par cœur.",items:A_DEF},
+ {id:"need",ico:"🎯",title:"Quel besoin ?",sub:"Communiquer, s'habiller, se déplacer…",items:A_NEED},
+ {id:"use",ico:"🔧",title:"À quoi ça sert ?",sub:"Trouver la fonction d'usage.",items:A_USE},
+ {id:"cat",ico:"🧩",title:"Besoin ou fonction ?",sub:"Usage ou estime ? Le piège de l'interro.",items:A_CAT},
+ {id:"vf",ico:"✅",title:"Vrai ou faux",sub:"L'exercice de la fiche, corrigé.",items:A_VF},
+];
+
+/* ============ Son ============ */
+let soundOn=true;
+try{ if(localStorage.getItem("sound")==="off") soundOn=false }catch(e){}
+let AC=null;
+function ctx(){AC=AC||new (window.AudioContext||window.webkitAudioContext)();if(AC.state==="suspended")AC.resume();return AC}
+function bell(f,t,dur=.6,vol=.18,type="sine"){
+  const a=ctx(),o=a.createOscillator(),o2=a.createOscillator(),g=a.createGain();
+  o.type=type;o.frequency.value=f;o2.type="sine";o2.frequency.value=f*2.01;
+  g.gain.setValueAtTime(.0001,t);g.gain.exponentialRampToValueAtTime(vol,t+.01);g.gain.exponentialRampToValueAtTime(.0001,t+dur);
+  const g2=a.createGain();g2.gain.value=.25;o2.connect(g2).connect(g);
+  o.connect(g).connect(a.destination);o.start(t);o2.start(t);o.stop(t+dur+.05);o2.stop(t+dur+.05);
+}
+function slide(f1,f2,t,dur,vol=.2,type="sine"){
+  const a=ctx(),o=a.createOscillator(),g=a.createGain();o.type=type;
+  o.frequency.setValueAtTime(f1,t);o.frequency.exponentialRampToValueAtTime(f2,t+dur);
+  g.gain.setValueAtTime(.0001,t);g.gain.exponentialRampToValueAtTime(vol,t+.015);g.gain.exponentialRampToValueAtTime(.0001,t+dur);
+  o.connect(g).connect(a.destination);o.start(t);o.stop(t+dur+.02);
+}
+function play(fn){if(!soundOn)return;try{fn(ctx().currentTime+.01)}catch(e){}}
+/* baguette magique : arpège scintillant */
+const sGood=()=>play(t=>{[1047,1319,1568,2093,2637].forEach((f,i)=>bell(f,t+i*.06,.7,.14));bell(3136,t+.34,.9,.07)});
+/* petit « bouip » doux de peluche */
+const sBad=()=>play(t=>{slide(520,330,t,.22,.18,"triangle");slide(440,260,t+.2,.3,.15,"triangle")});
+/* harpe magique + accord final */
+const sEnd=()=>play(t=>{const run=[523,587,659,784,880,1047,1175,1319,1568,1760,2093];run.forEach((f,i)=>bell(f,t+i*.055,.5,.1));[1047,1319,1568,2093].forEach(f=>bell(f,t+.7,1.6,.1))});
+/* bulle qui éclate au toucher */
+const sPop=()=>play(t=>slide(380,1100,t,.09,.16));
+const tone=()=>sPop();
+let frVoice=null;
+function pickVoice(){
+  try{
+    const v=speechSynthesis.getVoices().filter(v=>/^fr/i.test(v.lang));
+    frVoice=v.find(v=>/fr-FR/i.test(v.lang)&&/(Google|Amélie|Thomas|Audrey|Marie|Denise|Hortense)/i.test(v.name))||v.find(v=>/fr-FR/i.test(v.lang))||v[0]||null;
+  }catch(e){}
+}
+if("speechSynthesis" in window){pickVoice();speechSynthesis.onvoiceschanged=pickVoice;}
+function say(txt,force){
+  if((!soundOn&&!force)||!("speechSynthesis" in window)) return;
+  try{
+    speechSynthesis.cancel();
+    const u=new SpeechSynthesisUtterance(txt.replace(/…/g,", blanc, ").replace(/→/g,", alors "));
+    u.lang="fr-FR"; if(frVoice) u.voice=frVoice; u.rate=.95;
+    speechSynthesis.speak(u);
+  }catch(e){}
+}
+function stopSay(){try{speechSynthesis.cancel()}catch(e){}}
+
+const sndBtn=document.getElementById("sndBtn");
+function renderSnd(){
+  sndBtn.setAttribute("aria-pressed",soundOn);
+  document.getElementById("sndLbl").textContent=soundOn?"Son":"Muet";
+  document.getElementById("sndWave").style.opacity=soundOn?1:.15;
+}
+sndBtn.onclick=()=>{soundOn=!soundOn;try{localStorage.setItem("sound",soundOn?"on":"off")}catch(e){};if(!soundOn)stopSay();renderSnd();};
+renderSnd();
+
+/* ============ Paillettes ============ */
+const REDUCE=matchMedia("(prefers-reduced-motion: reduce)").matches;
+const SPARK=["✨","⭐","💖","🌟","🦄","🌈","💜","🩷"];
+function sparkle(el,n=14){
+  if(REDUCE) return; const r=el.getBoundingClientRect(),cx=r.left+r.width/2,cy=r.top+r.height/2;
+  for(let k=0;k<n;k++){const s=document.createElement("span");s.className="spark";s.textContent=SPARK[k%SPARK.length];
+    const a=Math.random()*Math.PI*2,d=70+Math.random()*110;
+    s.style.left=cx-12+"px";s.style.top=cy-14+"px";s.style.setProperty("--dx",Math.cos(a)*d+"px");s.style.setProperty("--dy",Math.sin(a)*d-40+"px");s.style.setProperty("--r",(Math.random()*360-180)+"deg");
+    document.body.appendChild(s);setTimeout(()=>s.remove(),1200);}
+}
+function rain(n=40){
+  if(REDUCE) return;
+  for(let k=0;k<n;k++){const s=document.createElement("span");s.className="rain";s.textContent=SPARK[Math.floor(Math.random()*SPARK.length)];
+    s.style.left=Math.random()*100+"vw";s.style.animationDuration=(2.2+Math.random()*2)+"s";s.style.animationDelay=(Math.random()*1.2)+"s";
+    document.body.appendChild(s);setTimeout(()=>s.remove(),5000);}
+}
+document.addEventListener("click",e=>{if(e.target.closest(".card,.tip,.say,.iconbtn,.btn.alt"))sPop()},true);
+
+/* ============ Scores ============ */
+function getBest(id){try{return JSON.parse(localStorage.getItem("best_"+id)||"null")}catch(e){return null}}
+function setBest(id,v){try{const b=getBest(id);if(!b||v>b)localStorage.setItem("best_"+id,JSON.stringify(v))}catch(e){}}
+
+/* ============ Vues ============ */
+const app=document.getElementById("app");
+const homeBtn=document.getElementById("homeBtn");
+homeBtn.onclick=()=>{stopSay();home()};
+const shuffle=a=>{a=a.slice();for(let i=a.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[a[i],a[j]]=[a[j],a[i]]}return a};
+const esc=s=>String(s).replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
+
+function home(){
+  homeBtn.hidden=true; window.scrollTo(0,0);
+  const bestX=getBest("exam");
+  app.innerHTML=`
+  <section class="hero">
+    <h2>Prête pour l'interro, ma licorne ? 🦄✨</h2>
+    <p>Choisis un exercice. Appuie sur le haut-parleur pour entendre la question. À la fin, fais l'interro blanche notée sur 20.</p>
+  </section>
+  <div class="rule">
+    <div><b>Naturel ou technique ?</b>L'homme l'a fabriqué ou modifié → objet technique.</div>
+    <div><b>Besoin ou fonction ?</b>Un besoin ne se touche pas. Une fonction se touche.</div>
+  </div>
+  <div class="grid" id="cards">
+    <button class="card" data-act="sheet"><span class="ico">🧸</span><h3>La fiche à retenir</h3><p>Le cours lu à voix haute, paragraphe par paragraphe.</p></button>
+    ${ACTS.map(a=>{const b=getBest(a.id);return`<button class="card" data-act="${a.id}"><span class="ico">${a.ico}</span><h3>${a.title}</h3><p>${a.sub} · ${a.items.length} questions</p>${b!=null?`<span class="best">Meilleur score : ${b} %</span>`:""}</button>`}).join("")}
+    <button class="card exam" data-act="exam"><span class="ico">🦄</span><h3>Interro blanche</h3><p>20 questions tirées au sort dans tous les exercices, notée sur 20.</p>${bestX!=null?`<span class="best">Meilleure note : ${Math.round(bestX/5)} / 20</span>`:""}</button>
+  </div>`;
+  app.querySelectorAll(".card").forEach(c=>c.onclick=()=>{
+    const id=c.dataset.act;
+    if(id==="sheet") return sheet();
+    if(id==="exam"){const pool=ACTS.flatMap(a=>a.items);return run({id:"exam",title:"Interro blanche",items:shuffle(pool).slice(0,20),exam:true});}
+    const a=ACTS.find(x=>x.id===id); run({...a,items:shuffle(a.items)});
+  });
+}
+
+function speakQ(it){ say((it.obj?it.obj+". ":"")+it.text+" "+ (it.opts.length<=4? "Réponses possibles : "+it.shown.join(" ; ")+".":"")); }
+
+function run(act){
+  homeBtn.hidden=false;
+  let i=0,score=0,mistakes=[];
+  const n=act.items.length;
+  function show(){
+    window.scrollTo(0,0);
+    const it=act.items[i];
+    it.shown=it.keep?it.opts.slice():shuffle(it.opts);
+    const two=it.shown.length===2||(it.two&&it.shown.length===4);
+    app.innerHTML=`
+      <div class="progress"><i style="width:${(i/n)*100}%"></i></div>
+      <div class="meta"><span>${esc(act.title)}</span><span>Question ${i+1} / ${n} · ${score} ✔</span></div>
+      <section class="q pop">
+        ${it.pic?`<div class="pic" aria-hidden="true">${it.pic}</div>`:""}
+        ${it.obj?`<div class="obj">${esc(it.obj)}</div>`:""}
+        <div class="text"><span>${esc(it.text)}</span><button class="say" id="sayBtn" title="Écouter la question">${SPK}</button></div>
+        <div class="opts ${two?"two":""}">${it.shown.map((o,k)=>`<button class="opt" data-k="${k}">${esc(o)}</button>`).join("")}</div>
+        ${it.tip?`<button class="tip" id="tipBtn">Besoin d'un indice ?</button><div class="tipbox" id="tipBox" hidden>${esc(it.tip)}</div>`:""}
+        <div id="fb"></div>
+      </section>`;
+    document.getElementById("sayBtn").onclick=()=>speakQ(it);
+    const tb=document.getElementById("tipBtn");
+    if(tb) tb.onclick=()=>{const b=document.getElementById("tipBox");b.hidden=false;tb.hidden=true;say(it.tip)};
+    app.querySelectorAll(".opt").forEach(b=>b.onclick=()=>answer(it,b));
+    speakQ(it);
+  }
+  function answer(it,btn){
+    const choice=it.shown[+btn.dataset.k], ok=choice===it.ans;
+    app.querySelectorAll(".opt").forEach(b=>{
+      b.disabled=true; const v=it.shown[+b.dataset.k];
+      if(v===it.ans) b.classList.add("good"); else if(b===btn) b.classList.add("bad"); else b.classList.add("dim");
+    });
+    const tb=document.getElementById("tipBtn"); if(tb) tb.hidden=true;
+    if(ok){score++;sGood();sparkle(btn)}else{sBad();mistakes.push({q:(it.obj?it.obj+" – ":"")+it.text,a:it.ans,exp:it.exp,it})}
+    const praise=["Bravo !","Magique !","Trop forte !","Parfait !","Génial !","Licornissime !"][Math.floor(Math.random()*6)];
+    const fb=document.getElementById("fb");
+    fb.innerHTML=`<div class="fb ${ok?"ok":"ko"} pop"><strong>${ok?praise+" ✨":"Presque ! 🧸"}</strong>${ok?"":`<div>La bonne réponse : <b>${esc(it.ans)}</b></div>`}<div>${esc(it.exp)}</div></div>
+      <div class="row" style="margin-top:12px"><button class="btn big" id="next">${i+1<n?"Question suivante":"Voir mon score"}</button></div>`;
+    setTimeout(()=>say((ok?praise+" ":"Presque ! La bonne réponse est : "+it.ans+". ")+it.exp),ok?350:500);
+    const nx=document.getElementById("next"); nx.focus({preventScroll:true});
+    fb.scrollIntoView({behavior:"smooth",block:"nearest"});
+    nx.onclick=()=>{stopSay();i++; i<n?show():end()};
+  }
+  function end(){
+    window.scrollTo(0,0);
+    const pct=Math.round(score/n*100); setBest(act.id,pct); sEnd(); if(pct>=50) rain(pct===100?70:40);
+    const note=Math.round(score/n*20*2)/2;
+    const msg=pct===100?"Sans faute ! Tu es une vraie licorne de la techno.":pct>=80?"Très bien ! Revois juste tes erreurs.":pct>=50?"C'est un bon début. Refais les erreurs pour les fixer.":"Pas grave ! Relis la fiche avec ta peluche, puis recommence.";
+    app.innerHTML=`<section class="end pop">
+      <div class="mascot" aria-hidden="true">${pct===100?"🦄🌈":pct>=50?"🦄✨":"🧸💜"}</div>
+      <h2>${esc(act.title)} – terminé</h2>
+      <div class="score">${act.exam?`${String(note).replace(".",",")} / 20`:`${score} / ${n}`}</div>
+      <p style="margin:0;font-size:1.2rem;font-weight:800">${msg}</p>
+      ${mistakes.length?`<h3>À revoir</h3><ul class="mist">${mistakes.map(m=>`<li>${esc(m.q)}<br>→ <b>${esc(m.a)}</b><br><span>${esc(m.exp)}</span></li>`).join("")}</ul>`:""}
+      <div class="row">
+        ${mistakes.length?`<button class="btn big" id="redo">Refaire mes ${mistakes.length} erreur${mistakes.length>1?"s":""}</button>`:""}
+        <button class="btn alt big" id="again">Recommencer</button>
+        <button class="btn alt big" id="menu">Menu</button>
+      </div></section>`;
+    say((act.exam?`Tu as ${String(note).replace(".",",")} sur 20. `:`Tu as ${score} bonnes réponses sur ${n}. `)+msg);
+    const r=document.getElementById("redo"); if(r) r.onclick=()=>run({id:act.id+"_redo",title:"Mes erreurs",items:shuffle(mistakes.map(m=>m.it))});
+    document.getElementById("again").onclick=()=>{
+      if(act.exam){const pool=ACTS.flatMap(a=>a.items);run({...act,items:shuffle(pool).slice(0,20)})}
+      else run({...act,items:shuffle(act.items)});
+    };
+    document.getElementById("menu").onclick=()=>{stopSay();home()};
+  }
+  show();
+}
+
+const SHEET=[
+ ["Deux catégories d'objets","Nous pouvons classer les objets qui nous entourent en deux catégories. Les <span class='hl'>objets naturels</span>, qui n'ont pas été modifiés par l'homme. Exemple : une feuille d'arbre. Les <span class='hl'>objets techniques</span>, qui ont été réalisés ou modifiés par l'homme. Exemple : un ordinateur."],
+ ["Le besoin","L'objet technique est fabriqué par l'homme pour répondre à un besoin. Un <span class='hl'>besoin</span> est une nécessité ou un désir ressenti par une personne : manger, dormir, s'amuser…"],
+ ["La fonction d'usage","La <span class='hl'>fonction d'usage</span> répond à ce besoin. Pour la trouver, il faut se poser la question : à quoi sert-il ?"],
+ ["Plusieurs fonctions d'usage","Un objet technique peut avoir plusieurs fonctions d'usage. Exemples : l'ordinateur, le smartphone, le couteau suisse."],
+ ["Besoin ou fonction ?","Pour éviter les confusions : un <span class='hl'>besoin ne peut pas se toucher</span>, alors que la <span class='hl'>fonction se touche</span>, car elle existe : on l'a fabriquée."],
+ ["La fonction d'estime","Tous les objets techniques doivent nous plaire. Ils proposent une <span class='hl'>fonction d'estime</span> qui répond au besoin de nous plaire : la couleur, le design. Le besoin qu'un objet technique me plaise s'appelle le <span class='hl'>besoin d'estime</span>."],
+];
+function sheet(){
+  homeBtn.hidden=false; window.scrollTo(0,0);
+  app.innerHTML=`<div class="row" style="margin-bottom:14px;align-items:center"><h2 style="flex:1;font-size:1.8rem">La fiche à retenir</h2><button class="btn" id="readAll">Tout écouter</button></div>
+  <div class="sheet">${SHEET.map((p,k)=>`<div class="para"><div><h3>${p[0]}</h3><p>${p[1]}</p></div><button class="say" data-k="${k}" title="Écouter">${SPK}</button></div>`).join("")}</div>
+  <div class="row" style="margin-top:16px"><button class="btn big" id="go">Je m'entraîne : interro blanche</button></div>`;
+  const plain=h=>h.replace(/<[^>]+>/g,"");
+  app.querySelectorAll(".para .say").forEach(b=>b.onclick=()=>{const p=SHEET[+b.dataset.k];say(p[0]+". "+plain(p[1]),true)});
+  document.getElementById("readAll").onclick=()=>say(SHEET.map(p=>p[0]+". "+plain(p[1])).join(" "),true);
+  document.getElementById("go").onclick=()=>{stopSay();const pool=ACTS.flatMap(a=>a.items);run({id:"exam",title:"Interro blanche",items:shuffle(pool).slice(0,20),exam:true})};
+}
+
+home();
+</script>
+
+</body>
+</html>
